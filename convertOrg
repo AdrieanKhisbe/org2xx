@@ -1,0 +1,61 @@
+#! /bin/bash
+
+usage()
+{
+cat << EOF
+
+Exports org-mode files to other file formats
+
+SYNOPSIS
+   $0 [-h] [-f <format>] files
+
+OPTIONS:
+   -h      Show this message
+   -f      Set the format to export to.
+
+           Depending on the packages installed in emacs, format bay be one of
+           the following:
+
+              ascii
+              docbook
+              freemind
+              html
+              latex
+              latin1
+              odf
+              odt
+              org
+              pdf
+              taskjuggler
+              utf8
+              xoxo
+EOF
+}
+
+FORMAT=pdf
+while getopts "f: $*" OPTION
+do
+     case $OPTION in
+         h)
+			 shift;
+             usage
+             exit 1
+             ;;
+         f)
+			 shift;shift;
+			 FORMAT=$OPTARG
+             ;;
+         ?)
+			 shift;
+             usage
+             exit
+             ;;
+     esac
+done
+
+f=""
+for file in "$@"
+do
+	f="${f} --visit ${file} --funcall org-export-as-$FORMAT"
+done
+emacs --batch --no-init-file --no-site-file $f
