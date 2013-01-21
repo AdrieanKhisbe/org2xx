@@ -37,16 +37,16 @@ while getopts "f: $*" OPTION
 do
      case $OPTION in
          h)
-			 shift;
+             shift;
              usage
              exit 1
              ;;
          f)
-			 shift;shift;
-			 FORMAT=$OPTARG
+             shift;shift;
+             FORMAT=$OPTARG
              ;;
          ?)
-			 shift;
+             shift;
              usage
              exit
              ;;
